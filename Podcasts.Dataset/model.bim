@@ -1,0 +1,1524 @@
+{
+  "compatibilityLevel": 1567,
+  "model": {
+    "annotations": [
+      {
+        "name": "PBI_QueryOrder",
+        "value": "[\"dim_dates\",\"dim_clocks\",\"Tabellenliste\",\"DBT_Dev_Env\",\"Import Table\",\"mart_Connect\"]"
+      },
+      {
+        "name": "__PBI_TimeIntelligenceEnabled",
+        "value": "1"
+      },
+      {
+        "name": "PBIDesktopVersion",
+        "value": "2.121.762.0 (23.09)"
+      },
+      {
+        "name": "PBI_ProTooling",
+        "value": "[\"DevMode\"]"
+      }
+    ],
+    "culture": "de-DE",
+    "cultures": [
+      {
+        "name": "de-DE",
+        "linguisticMetadata": {
+          "content": {
+            "DynamicImprovement": "HighConfidence",
+            "Language": "en-US",
+            "Version": "1.0.0"
+          },
+          "contentType": "json"
+        }
+      }
+    ],
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "expressions": [
+      {
+        "name": "DBT_Dev_Env",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Text"
+          }
+        ],
+        "description": [
+          "Dieser Parameter gibt an auf welches Developrer Enviroment sich die Abfragen der Tabellen beziehen soll.",
+          "Wenn auf dem eigenen environment gearbeitet werden soll füge das eigene präfix hinzufügen.",
+          "Tabellen sollten bei der ansteuerung der BigQuery Tabellen diesen Parameter mit einbeziehen. dh. in der angabe des shemas z.B: \"dbt_prod_marts\"  sollte der string zwischen den ersten beiden \"_\" durch den Parameter ersetzt werden. (ersetzen von \"prod\" durch \" \" & DBT_Dev_Env & \" \"  )"
+        ],
+        "expression": "\"test\" meta [IsParameterQuery=true, List={\"prod\", \"test\", \"jmayer\", \"nwen\"}, DefaultValue=..., Type=\"Any\", IsParameterQueryRequired=true]",
+        "kind": "m",
+        "lineageTag": "57265960-4f14-4c0c-a8b0-99df0a3f0045",
+        "queryGroup": "Import Table function"
+      },
+      {
+        "name": "Import Table",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Function"
+          }
+        ],
+        "expression": [
+          "let",
+          "    Quelle = (TableName as any) => let",
+          "    Quelle = GoogleBigQuery.Database(),",
+          "    #\"reach-it-342812\" = Quelle{[Name=\"reach-it-342812\"]}[Data],",
+          "    dbt_prod_marts_Schema = #\"reach-it-342812\"{[Name=\"dbt_\" & DBT_Dev_Env & \"_marts\",Kind=\"Schema\"]}[Data],",
+          "    dim_dates_Table = dbt_prod_marts_Schema{[Name=TableName,Kind=\"Table\"]}[Data]",
+          "in",
+          "    dim_dates_Table",
+          "in",
+          "    Quelle"
+        ],
+        "kind": "m",
+        "lineageTag": "251e6815-766d-45ce-bedd-3146e060d050",
+        "queryGroup": "Import Table function"
+      },
+      {
+        "name": "mart_Connect",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Function"
+          }
+        ],
+        "expression": [
+          "let",
+          "    Quelle = (martName) => let",
+          "        Quelle = GoogleBigQuery.Database(),",
+          "        #\"reach-it-342812\" = Quelle{[Name=\"reach-it-342812\"]}[Data],",
+          "        #\"Gefilterte Zeilen\" = Table.SelectRows(#\"reach-it-342812\", each Text.Contains([Name], \"mart\")),",
+          "        #\"Entfernte Spalten\" = Table.RemoveColumns(#\"Gefilterte Zeilen\",{\"Name\", \"Description\"}),",
+          "        #\"Erweiterte Data2\" = Table.ExpandTableColumn(#\"Entfernte Spalten\", \"Data\", {\"Name\", \"Kind\"}, {\"Data.Name\", \"Data.Kind\"}),",
+          "        #\"Entfernte Duplikate\" = Table.Distinct(#\"Erweiterte Data2\", {\"Data.Name\"}),",
+          "        #\"Entfernte Spalten1\" = Table.RemoveColumns(#\"Entfernte Duplikate\",{\"Kind\"}),",
+          "        #\"Gefilterte Zeilen1\" = Table.SelectRows(#\"Entfernte Spalten1\", each Text.Contains([Data.Name], martName)),",
+          "        #\"Aufgerufene benutzerdefinierte Funktion\" = Table.AddColumn(#\"Gefilterte Zeilen1\", \"Import Table\", each #\"Import Table\"([Data.Name]))",
+          "    in",
+          "        #\"Aufgerufene benutzerdefinierte Funktion\"",
+          "in",
+          "    Quelle"
+        ],
+        "kind": "m",
+        "lineageTag": "a18317b7-056c-4b45-a8dd-2f615055f69e",
+        "queryGroup": "Import Table function"
+      }
+    ],
+    "queryGroups": [
+      {
+        "annotations": [
+          {
+            "name": "PBI_QueryGroupOrder",
+            "value": "0"
+          }
+        ],
+        "folder": "Import Table function"
+      }
+    ],
+    "sourceQueryCulture": "de-DE",
+    "tables": [
+      {
+        "name": "dim_dates",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          }
+        ],
+        "columns": [
+          {
+            "name": "date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "dataType": "dateTime",
+            "displayFolder": "_Kalendar",
+            "formatString": "Short Date",
+            "lineageTag": "c4ef87f8-2172-470b-9c40-2fe7724fe583",
+            "sourceColumn": "date",
+            "sourceProviderType": "date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "jahr",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "SortByColumn"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "_Kalendar",
+            "formatString": "0",
+            "lineageTag": "1220a8d2-af08-4c0f-90df-b2357540b3e5",
+            "sourceColumn": "jahr",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "monat",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "_Kalendar",
+            "formatString": "0",
+            "lineageTag": "cc8c2e20-aa75-4919-9830-6a49d993ea45",
+            "sourceColumn": "monat",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "monatsname",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "SortByColumn"
+              }
+            ],
+            "dataType": "string",
+            "displayFolder": "_Kalendar",
+            "lineageTag": "a26335b1-57ce-414f-8f5a-b4907d06294e",
+            "sortByColumn": "monat",
+            "sourceColumn": "monatsname",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "tag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "_Kalendar",
+            "formatString": "0",
+            "lineageTag": "49573d1b-d8b5-43ce-8b5e-e7ccaede5d83",
+            "sourceColumn": "tag",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "wochentag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "displayFolder": "_Kalendar",
+            "lineageTag": "2856cccb-bac0-4577-bfbe-94acd5b402e7",
+            "sourceColumn": "wochentag",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "wochentagsname",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "DataType"
+              }
+            ],
+            "dataType": "dateTime",
+            "displayFolder": "_Kalendar",
+            "formatString": "Short Date",
+            "lineageTag": "67c08034-d13c-4021-9598-dfe3000562c2",
+            "sourceColumn": "wochentagsname",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "quartal",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "displayFolder": "_Kalendar",
+            "lineageTag": "dd5246ec-fb0a-4c71-acb6-31f08c4a4d14",
+            "sourceColumn": "quartal",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "kalenderwoche",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "SortByColumn"
+              }
+            ],
+            "dataType": "string",
+            "displayFolder": "_Kalendar",
+            "lineageTag": "9ed3cba0-2092-45d6-a4f6-8bb7dbd31da2",
+            "sourceColumn": "kalenderwoche",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "month_year",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "displayFolder": "Kombinierte",
+            "lineageTag": "d7dd0f04-2c51-45c4-9f51-6ca2f7652844",
+            "sourceColumn": "month_year",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "quarter_year",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "displayFolder": "Kombinierte",
+            "lineageTag": "64148082-7bd8-45a4-a023-040f58a1cc7b",
+            "sourceColumn": "quarter_year",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_future",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "08268120-e610-440a-948b-2ca1674510c0",
+            "sourceColumn": "is_future",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "week_date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "DataType"
+              }
+            ],
+            "dataType": "dateTime",
+            "displayFolder": "Kombinierte",
+            "formatString": "Short Date",
+            "lineageTag": "e7fc6eec-315d-4372-ab44-1ed4443f317e",
+            "sourceColumn": "week_date",
+            "sourceProviderType": "date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "month_date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "DataType"
+              }
+            ],
+            "dataType": "dateTime",
+            "displayFolder": "Kombinierte",
+            "formatString": "Short Date",
+            "lineageTag": "d60b06ad-4765-405c-b02f-483e3c305b66",
+            "sourceColumn": "month_date",
+            "sourceProviderType": "date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "quarter_date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "DataType"
+              }
+            ],
+            "dataType": "dateTime",
+            "displayFolder": "Kombinierte",
+            "formatString": "Short Date",
+            "lineageTag": "2f0ddc05-42cf-422f-86a8-f148ebed4c4b",
+            "sourceColumn": "quarter_date",
+            "sourceProviderType": "date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "year_date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "DataType"
+              }
+            ],
+            "dataType": "dateTime",
+            "displayFolder": "Kombinierte",
+            "formatString": "Short Date",
+            "lineageTag": "92d0fcda-a51a-4407-a11d-0c23d3579e84",
+            "sourceColumn": "year_date",
+            "sourceProviderType": "date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_7_days_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "vorherige",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "a2497da9-5c84-4314-8a09-b21f96b4cfaa",
+            "sourceColumn": "last_7_days_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_7_days_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "vorherige",
+            "formatString": "0",
+            "lineageTag": "81b3e2fc-da4e-42f6-8e8a-caaadd335a60",
+            "sourceColumn": "last_7_days_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "comp_2_last_7_days_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Vergleich",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "4ba0dd8d-299f-4297-8891-07d12ccdc9f7",
+            "sourceColumn": "comp_2_last_7_days_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_7_days_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Vergleich",
+            "formatString": "0",
+            "lineageTag": "7e3bf8e0-3d0a-403e-8c8a-f303842d5d8e",
+            "sourceColumn": "comp_2_last_7_days_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "this_week_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Aktuell",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "1b8b6abe-f7a5-462a-909a-e60c4823b5d5",
+            "sourceColumn": "this_week_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "this_week_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Aktuell",
+            "formatString": "0",
+            "lineageTag": "a0204c59-e321-43b5-b32f-7096fef53acb",
+            "sourceColumn": "this_week_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "comp_2_this_week_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Vergleich",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "8d12d691-04ec-45d5-86ab-f9aa74d42533",
+            "sourceColumn": "comp_2_this_week_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_this_week_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Vergleich",
+            "formatString": "0",
+            "lineageTag": "10873e20-8354-4f9c-a0c5-1744ebf1b883",
+            "sourceColumn": "comp_2_this_week_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "last_week_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "vorherige",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "d076bf4e-4db4-4cef-94c1-47dfe2a4ca61",
+            "sourceColumn": "last_week_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_week_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "vorherige",
+            "formatString": "0",
+            "lineageTag": "15b52ceb-4d1a-4a35-8f96-a02bd1833bfc",
+            "sourceColumn": "last_week_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "comp_2_last_week_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Vergleich",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "08303583-eb47-4499-a434-7fe3ecb24674",
+            "sourceColumn": "comp_2_last_week_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_week_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Vergleich",
+            "formatString": "0",
+            "lineageTag": "1272e308-c032-4bb2-9f79-f9ac36b338e1",
+            "sourceColumn": "comp_2_last_week_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "last_2_weeks_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "vorherige",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "54d39869-7f7a-4d17-93cc-c41a0b24fd38",
+            "sourceColumn": "last_2_weeks_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_2_weeks_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "vorherige",
+            "formatString": "0",
+            "lineageTag": "fa606e41-a781-4022-8c9b-035bc7001903",
+            "sourceColumn": "last_2_weeks_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "comp_2_last_2_weeks_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Vergleich",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "be5b8435-5251-4238-80e2-8eb5f59a1e6f",
+            "sourceColumn": "comp_2_last_2_weeks_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_2_weeks_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Vergleich",
+            "formatString": "0",
+            "lineageTag": "ae1fe75b-682a-4409-8da6-4f4eea6231ad",
+            "sourceColumn": "comp_2_last_2_weeks_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "last_4_weeks_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "vorherige",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "3b277a40-aab5-44b4-9e6a-ae433d3a2d12",
+            "sourceColumn": "last_4_weeks_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_4_weeks_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "vorherige",
+            "formatString": "0",
+            "lineageTag": "3a2689e7-1ca0-439c-a4e7-649d738785cf",
+            "sourceColumn": "last_4_weeks_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "comp_2_last_4_weeks_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Vergleich",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "b457710c-f8fe-4058-a1c9-5ab81446d575",
+            "sourceColumn": "comp_2_last_4_weeks_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_4_weeks_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Vergleich",
+            "formatString": "0",
+            "lineageTag": "d4ffb592-7d78-4f61-b6f0-934423988a3c",
+            "sourceColumn": "comp_2_last_4_weeks_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "this_month_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Aktuell",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "4c903976-41e8-459c-9bd8-87340ee24610",
+            "sourceColumn": "this_month_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "this_month_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Aktuell",
+            "formatString": "0",
+            "lineageTag": "f82462d1-974c-46f7-95fa-f23024f85947",
+            "sourceColumn": "this_month_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "comp_2_this_month_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Vergleich",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "ae109f17-ccd8-4133-a756-a4050a6ed299",
+            "sourceColumn": "comp_2_this_month_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_this_month_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Vergleich",
+            "formatString": "0",
+            "lineageTag": "b9688efb-4d65-41ed-9820-a7a3da86ae11",
+            "sourceColumn": "comp_2_this_month_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "last_month_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "vorherige",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "ebf23c74-4089-4b4e-9006-66c3ddcfc283",
+            "sourceColumn": "last_month_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_month_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "vorherige",
+            "formatString": "0",
+            "lineageTag": "9ff04157-4bfb-4089-aecb-276b3185af3d",
+            "sourceColumn": "last_month_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "comp_2_last_month_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Vergleich",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "47c9f5f4-db83-4ffa-b28e-999cf60f865e",
+            "sourceColumn": "comp_2_last_month_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_month_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Vergleich",
+            "formatString": "0",
+            "lineageTag": "87210ea4-1e53-4cd2-aad0-120771dc05aa",
+            "sourceColumn": "comp_2_last_month_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "last_3_months_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "vorherige",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "a23b7903-e76f-490b-bceb-b49ef849c5e6",
+            "sourceColumn": "last_3_months_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_3_months_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "vorherige",
+            "formatString": "0",
+            "lineageTag": "1501bf32-e338-45d0-ac50-78e1453d4bcb",
+            "sourceColumn": "last_3_months_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "comp_2_last_3_months_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Vergleich",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "bf553a7c-5336-4a70-a77e-961e1a70a4d2",
+            "sourceColumn": "comp_2_last_3_months_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_3_months_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Vergleich",
+            "formatString": "0",
+            "lineageTag": "0cd38a9d-68db-44fb-903b-10d6baba798f",
+            "sourceColumn": "comp_2_last_3_months_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "this_year_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Aktuell",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "3e6b879f-98d2-450a-8ff3-a796698bdd2a",
+            "sourceColumn": "this_year_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "this_year_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Aktuell",
+            "formatString": "0",
+            "lineageTag": "373cb9de-28a6-4e9f-a41a-5bb89dbd7fe8",
+            "sourceColumn": "this_year_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "comp_2_this_year_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Vergleich",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "d5abb26f-4723-4c5e-909f-0ef8194cd40c",
+            "sourceColumn": "comp_2_this_year_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_this_year_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Vergleich",
+            "formatString": "0",
+            "lineageTag": "01145219-bc6b-4879-af31-2e96f7e5eca0",
+            "sourceColumn": "comp_2_this_year_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "last_year_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "vorherige",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "3c05622d-1fd9-4a19-8872-8ddfd302bd55",
+            "sourceColumn": "last_year_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_year_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "vorherige",
+            "formatString": "0",
+            "lineageTag": "4ec7d717-495e-4989-b45e-5c8af13fbd5f",
+            "sourceColumn": "last_year_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "comp_2_last_year_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Vergleich",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "b4f82712-318e-4207-8b5a-0e5c5e63dfa3",
+            "sourceColumn": "comp_2_last_year_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_year_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Vergleich",
+            "formatString": "0",
+            "lineageTag": "124c718f-b180-4bad-b3e8-5ea7df70f14e",
+            "sourceColumn": "comp_2_last_year_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "last_updated",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "dateTime",
+            "displayFolder": "vorherige",
+            "formatString": "General Date",
+            "lineageTag": "ca1d46db-6075-4f5e-8a95-ecd2010bdc37",
+            "sourceColumn": "last_updated",
+            "sourceProviderType": "datetime2",
+            "summarizeBy": "none"
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Jahr_Monat_Tag",
+            "displayFolder": "_Kalendar\\_Hierachien",
+            "levels": [
+              {
+                "name": "jahr",
+                "column": "jahr",
+                "lineageTag": "fd91b96a-1e40-4d2b-9642-959b41fb839f",
+                "ordinal": 0
+              },
+              {
+                "name": "monat",
+                "column": "monat",
+                "lineageTag": "58e3e653-be4f-499a-a784-e9d6f97eda31",
+                "ordinal": 1
+              },
+              {
+                "name": "tag",
+                "column": "tag",
+                "lineageTag": "69bf7d04-3e47-4072-b310-bd050f8e1833",
+                "ordinal": 2
+              }
+            ],
+            "lineageTag": "4759ec55-de8e-4aac-aa89-a69f8d537e0d"
+          },
+          {
+            "name": "Jahr_KW_Wochentag",
+            "displayFolder": "_Kalendar\\_Hierachien",
+            "levels": [
+              {
+                "name": "jahr",
+                "column": "jahr",
+                "lineageTag": "eb7ac5f8-f213-4b6b-8f9e-f7fb754fce91",
+                "ordinal": 0
+              },
+              {
+                "name": "kalenderwoche",
+                "column": "kalenderwoche",
+                "lineageTag": "35458135-d1a2-4096-8c85-a8630d462e57",
+                "ordinal": 1
+              },
+              {
+                "name": "wochentag",
+                "column": "wochentag",
+                "lineageTag": "661b3281-813e-48b7-8552-34fdca6ef529",
+                "ordinal": 2
+              }
+            ],
+            "lineageTag": "68939518-24de-4123-9cf2-79b781d6de28"
+          }
+        ],
+        "lineageTag": "137cfcc6-8e74-427f-94be-1bfb7a907786",
+        "partitions": [
+          {
+            "name": "dim_dates-2d5bc5d7-74b8-459e-a01d-ad3fa500d453",
+            "mode": "directQuery",
+            "source": {
+              "expression": [
+                "let",
+                "    Quelle = GoogleBigQuery.Database(),",
+                "    #\"reach-it-342812\" = Quelle{[Name=\"reach-it-342812\"]}[Data],",
+                "    dbt_prod_marts_Schema = #\"reach-it-342812\"{[Name=\"dbt_\" & DBT_Dev_Env & \"_marts\",Kind=\"Schema\"]}[Data],",
+                "    dim_dates_Table = dbt_prod_marts_Schema{[Name=\"dim_dates\",Kind=\"Table\"]}[Data]",
+                "in",
+                "    dim_dates_Table"
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "dim_clocks",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Hour",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "1d05180f-e349-4750-99e6-184fb7013a66",
+            "sourceColumn": "Hour",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "last_updated",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "General Date",
+            "lineageTag": "8a750c11-780f-4bf8-9d43-bed2c6262832",
+            "sourceColumn": "last_updated",
+            "sourceProviderType": "datetime2",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "ff499978-8e49-42d8-ae25-2d9a3496bcae",
+        "partitions": [
+          {
+            "name": "dim_clocks-fea9fccb-e5d9-46a1-b4c6-974b13521510",
+            "mode": "directQuery",
+            "source": {
+              "expression": [
+                "let",
+                "    Quelle = GoogleBigQuery.Database(),",
+                "    #\"reach-it-342812\" = Quelle{[Name=\"reach-it-342812\"]}[Data],",
+                "    dbt_prod_marts_Schema = #\"reach-it-342812\"{[Name=\"dbt_\"& DBT_Dev_Env &\"_marts\",Kind=\"Schema\"]}[Data],",
+                "    dim_clocks_Table = dbt_prod_marts_Schema{[Name=\"dim_clocks\",Kind=\"Table\"]}[Data]",
+                "in",
+                "    dim_clocks_Table"
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Tabellenliste",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Tabellen",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "38b395f8-0e59-4d97-9d97-8c411286f2ca",
+            "sourceColumn": "Tabellen",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "78a098dd-44fe-45ae-9af6-78c7c861747e",
+        "partitions": [
+          {
+            "name": "Tabellenliste-6aec0488-6895-487d-af73-75322708d4fe",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Quelle = #sections,",
+                "    Section1 = Quelle[Section1],",
+                "    #\"In Tabelle konvertiert\" = Record.ToTable(Section1),",
+                "    #\"Entfernte Spalten\" = Table.RemoveColumns(#\"In Tabelle konvertiert\",{\"Value\"}),",
+                "    #\"Gefilterte Zeilen\" = Table.SelectRows(#\"Entfernte Spalten\", each true),",
+                "    #\"Umbenannte Spalten\" = Table.RenameColumns(#\"Gefilterte Zeilen\",{{\"Name\", \"Tabellen\"}}),",
+                "    #\"Gefilterte Zeilen1\" = Table.SelectRows(#\"Umbenannte Spalten\", each [Tabellen] <> \"DBT_Dev_Env\"),",
+                "    #\"Gefilterte Zeilen2\" = Table.SelectRows(#\"Gefilterte Zeilen1\", each [Tabellen] <> \"Tabellenliste\")",
+                "in",
+                "    #\"Gefilterte Zeilen2\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "DateTableTemplate_968b54cf-a865-4a20-8866-099b8e485ca5",
+        "annotations": [
+          {
+            "name": "__PBI_TemplateDateTable",
+            "value": "true"
+          },
+          {
+            "name": "DefaultItem",
+            "value": "DateHierarchy"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataCategory": "PaddedDateTableDates",
+            "dataType": "dateTime",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "isNameInferred": true,
+            "lineageTag": "80d8bde7-0551-4030-9460-0da00e4caf07",
+            "sourceColumn": "[Date]",
+            "summarizeBy": "none",
+            "type": "calculatedTableColumn"
+          },
+          {
+            "name": "Jahr",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Year"
+              }
+            ],
+            "dataCategory": "Years",
+            "dataType": "int64",
+            "expression": "YEAR([Date])",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "8f943e2b-e2f1-449f-a67a-c4c5e794daf7",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "MonthNo",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "MonthNumber"
+              }
+            ],
+            "dataCategory": "MonthOfYear",
+            "dataType": "int64",
+            "expression": "MONTH([Date])",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "5ccd399b-90b7-41b1-8858-5acbed52d3ad",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Monat",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Month"
+              }
+            ],
+            "dataCategory": "Months",
+            "dataType": "string",
+            "expression": "FORMAT([Date], \"MMMM\")",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "1620b221-8cef-4f2a-b5ae-1047d5d37fbf",
+            "sortByColumn": "MonthNo",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "QuarterNo",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "QuarterNumber"
+              }
+            ],
+            "dataCategory": "QuarterOfYear",
+            "dataType": "int64",
+            "expression": "INT(([MonthNo] + 2) / 3)",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "937913c7-9161-40b8-ba30-bd24fecadc5f",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Quartal",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Quarter"
+              }
+            ],
+            "dataCategory": "Quarters",
+            "dataType": "string",
+            "expression": "\"Qrtl \" & [QuarterNo]",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "42ddd5ce-4d77-49eb-91d6-116cc77ce4b8",
+            "sortByColumn": "QuarterNo",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Tag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Day"
+              }
+            ],
+            "dataCategory": "DayOfMonth",
+            "dataType": "int64",
+            "expression": "DAY([Date])",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "480a233b-dcdb-4bfd-9b59-5708af5104d2",
+            "summarizeBy": "none",
+            "type": "calculated"
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Datumshierarchie",
+            "annotations": [
+              {
+                "name": "TemplateId",
+                "value": "DateHierarchy"
+              }
+            ],
+            "levels": [
+              {
+                "name": "Jahr",
+                "column": "Jahr",
+                "lineageTag": "a5a5660c-2142-4262-926c-ef87ca562e03",
+                "ordinal": 0
+              },
+              {
+                "name": "Quartal",
+                "column": "Quartal",
+                "lineageTag": "5f626dfb-e117-44c7-bf4c-e16f5e857180",
+                "ordinal": 1
+              },
+              {
+                "name": "Monat",
+                "column": "Monat",
+                "lineageTag": "43fae695-7ef5-4bd5-9619-ba43112c904f",
+                "ordinal": 2
+              },
+              {
+                "name": "Tag",
+                "column": "Tag",
+                "lineageTag": "67e293d8-b3fb-4e31-bf19-5736bde0eb8f",
+                "ordinal": 3
+              }
+            ],
+            "lineageTag": "9ad93709-638a-4876-866c-794a2948c2ec"
+          }
+        ],
+        "isHidden": true,
+        "isPrivate": true,
+        "lineageTag": "39dcea0c-f880-4e89-9ba2-9803b3037cb9",
+        "partitions": [
+          {
+            "name": "DateTableTemplate_968b54cf-a865-4a20-8866-099b8e485ca5-00ecebe6-2283-4182-bd57-40bab64d9be9",
+            "mode": "import",
+            "source": {
+              "expression": "Calendar(Date(2015,1,1), Date(2015,1,1))",
+              "type": "calculated"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
