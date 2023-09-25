@@ -4,14 +4,14 @@
     {
       "ordinal": 0,
       "scrollPosition": {
-        "x": 0,
+        "x": 1016.9445989920207,
         "y": 0
       },
       "nodes": [
         {
           "location": {
-            "x": 128,
-            "y": 179
+            "x": 3033.5452573569073,
+            "y": 834.45257356907587
           },
           "nodeIndex": "dim_clocks",
           "nodeLineageTag": "ff499978-8e49-42d8-ae25-2d9a3496bcae",
@@ -23,20 +23,7 @@
         },
         {
           "location": {
-            "x": 123.30000000000001,
-            "y": 348
-          },
-          "nodeIndex": "dim_dates",
-          "nodeLineageTag": "137cfcc6-8e74-427f-94be-1bfb7a907786",
-          "size": {
-            "height": 300,
-            "width": 234
-          },
-          "zIndex": 3
-        },
-        {
-          "location": {
-            "x": 0,
+            "x": 2840,
             "y": 0
           },
           "nodeIndex": "Tabellenliste",
@@ -46,16 +33,280 @@
             "width": 234
           },
           "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 2963.3,
+            "y": 348
+          },
+          "nodeIndex": "dim_dates_fct",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1408.22992321356,
+            "y": 950.61198868335953
+          },
+          "nodeIndex": "dim_dates_publish",
+          "nodeLineageTag": "5479319b-8923-4779-9d38-82c89876bf02",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 865.71439509085633
+          },
+          "nodeIndex": "dim_podcast_categories",
+          "nodeLineageTag": "c47a2936-fe8d-4e3c-9756-7710ca1c5881",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1938.4917447353403,
+            "y": 773.83841581169963
+          },
+          "nodeIndex": "dim_podcast_episodes",
+          "nodeLineageTag": "45957da6-9d9c-44ef-8ec5-85db1cf64ef8",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1136,
+            "y": 174
+          },
+          "nodeIndex": "dim_podcasts",
+          "nodeLineageTag": "ab8ce269-6c7d-4295-9efd-709f7a73d2e2",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1988,
+            "y": 174
+          },
+          "nodeIndex": "fct_podcast_episode_performances_daily",
+          "nodeLineageTag": "77ab75c1-c138-4d53-ab4e-321a86725c24",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2244.1634725747122,
+            "y": 575.395564862289
+          },
+          "nodeIndex": "fct_podcast_spotify_ard_performances_hourly",
+          "nodeLineageTag": "de8cf593-5c17-4743-99ee-0a1eb17fc641",
+          "size": {
+            "height": 248,
+            "width": 577.616046143788
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2231.0829611681665,
+            "y": 0
+          },
+          "nodeIndex": "fct_podcast_spotify_ard_performances_daily",
+          "nodeLineageTag": "a4bbb214-1ae8-4281-a533-530701edc9cc",
+          "size": {
+            "height": 300,
+            "width": 527.96054814613126
+          },
+          "zIndex": 0
         }
       ],
       "name": "Alle Tabellen",
-      "zoomValue": 100,
+      "zoomValue": 50.346892102823126,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 1,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 378,
+            "y": 424
+          },
+          "nodeIndex": "fct_podcast_episode_performances_daily",
+          "nodeLineageTag": "77ab75c1-c138-4d53-ab4e-321a86725c24",
+          "size": {
+            "height": 300,
+            "width": 443
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 80,
+            "y": 0
+          },
+          "nodeIndex": "dim_dates_fct",
+          "nodeLineageTag": "137cfcc6-8e74-427f-94be-1bfb7a907786",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 526,
+            "y": 0
+          },
+          "nodeIndex": "dim_podcasts",
+          "nodeLineageTag": "ab8ce269-6c7d-4295-9efd-709f7a73d2e2",
+          "size": {
+            "height": 300,
+            "width": 390
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1025.1871815471995,
+            "y": 312.83474027529047
+          },
+          "nodeIndex": "dim_podcast_episodes",
+          "nodeLineageTag": "45957da6-9d9c-44ef-8ec5-85db1cf64ef8",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 604
+          },
+          "nodeIndex": "dim_dates_publish",
+          "nodeLineageTag": "5479319b-8923-4779-9d38-82c89876bf02",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Episodes",
+      "zoomValue": 63.287087723234023,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 2,
+      "scrollPosition": {
+        "x": 0,
+        "y": 60.336995668197204
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 853.3718749724369,
+            "y": 700.31787189449528
+          },
+          "nodeIndex": "dim_podcast_categories",
+          "nodeLineageTag": "c47a2936-fe8d-4e3c-9756-7710ca1c5881",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 498.11605694718082,
+            "y": 735.10197969579644
+          },
+          "nodeIndex": "dim_podcasts",
+          "nodeLineageTag": "ab8ce269-6c7d-4295-9efd-709f7a73d2e2",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 510.95602394586297,
+            "y": 171.02370483424696
+          },
+          "nodeIndex": "fct_podcast_spotify_ard_performances_daily",
+          "nodeLineageTag": "a4bbb214-1ae8-4281-a533-530701edc9cc",
+          "size": {
+            "height": 300,
+            "width": 455.214160797295
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 57.180579020446771,
+            "y": 418.44033575889716
+          },
+          "nodeIndex": "fct_podcast_spotify_ard_performances_hourly",
+          "nodeLineageTag": "de8cf593-5c17-4743-99ee-0a1eb17fc641",
+          "size": {
+            "height": 248,
+            "width": 377.78920451824172
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 153.59657061401265,
+            "y": 0
+          },
+          "nodeIndex": "dim_dates_fct",
+          "nodeLineageTag": "137cfcc6-8e74-427f-94be-1bfb7a907786",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 5,
+          "expandedHeight": 300
+        }
+      ],
+      "name": "Podcast",
+      "zoomValue": 79.553182037699855,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,
       "hideKeyFieldsWhenCollapsed": false,
       "tablesLocked": false
     }
   ],
-  "selectedDiagram": "Alle Tabellen",
+  "selectedDiagram": "Podcast",
   "defaultDiagram": "Alle Tabellen"
 }

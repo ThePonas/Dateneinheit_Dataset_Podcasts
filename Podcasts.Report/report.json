@@ -36,10 +36,29 @@
       "config": "{\"objects\":{\"background\":[{\"properties\":{\"image\":{\"image\":{\"name\":{\"expr\":{\"Literal\":{\"Value\":\"'Blur 2 Crude WoHooo (2).PNG'\"}}},\"url\":{\"expr\":{\"ResourcePackageItem\":{\"PackageName\":\"RegisteredResources\",\"PackageType\":1,\"ItemName\":\"Blur_2_Crude_WoHooo_(2)4040433265638457.PNG\"}}},\"scaling\":{\"expr\":{\"Literal\":{\"Value\":\"'Fit'\"}}}}},\"transparency\":{\"expr\":{\"Literal\":{\"Value\":\"73D\"}}}}}]}}",
       "displayName": "indirekt",
       "displayOption": 2,
-      "filters": "[]",
+      "filters": "[{\"name\":\"Filter3476a884d51821621918\",\"expression\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Entity\":\"dim_dates_publish\"}},\"Property\":\"date\"}},\"filter\":{\"Version\":2,\"From\":[{\"Name\":\"d\",\"Entity\":\"dim_dates_publish\",\"Type\":0}],\"Where\":[{\"Condition\":{\"Between\":{\"Expression\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"date\"}},\"LowerBound\":{\"DateSpan\":{\"Expression\":{\"DateAdd\":{\"Expression\":{\"DateAdd\":{\"Expression\":{\"Now\":{}},\"Amount\":1,\"TimeUnit\":0}},\"Amount\":-60,\"TimeUnit\":0}},\"TimeUnit\":0}},\"UpperBound\":{\"DateSpan\":{\"Expression\":{\"Now\":{}},\"TimeUnit\":0}}}}}]},\"type\":\"RelativeDate\",\"howCreated\":1}]",
       "height": 3508.00,
       "name": "ReportSection",
-      "visualContainers": [],
+      "visualContainers": [
+        {
+          "config": "{\"name\":\"9f3a240a53039980eae0\",\"layouts\":[{\"id\":0,\"position\":{\"x\":1213.2023575638507,\"y\":0,\"z\":1,\"width\":1242.4361493123772,\"height\":1132.8094302554027}}],\"singleVisual\":{\"visualType\":\"tableEx\",\"projections\":{\"Values\":[{\"queryRef\":\"dim_podcast_episodes.episode_title\"},{\"queryRef\":\"Sum(fct_podcast_episode_performances_daily.spotify_streams)\"},{\"queryRef\":\"Sum(fct_podcast_episode_performances_daily.spotify_starts)\"},{\"queryRef\":\"Sum(fct_podcast_episode_performances_daily.spotify_listeners_all_time_delta)\"},{\"queryRef\":\"Sum(fct_podcast_episode_performances_daily.spotify_listeners_day)\"},{\"queryRef\":\"Sum(fct_podcast_episode_performances_daily.akamai_ondemand)\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"d\",\"Entity\":\"dim_podcast_episodes\",\"Type\":0},{\"Name\":\"f\",\"Entity\":\"fct_podcast_episode_performances_daily\",\"Type\":0}],\"Select\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"episode_title\"},\"Name\":\"dim_podcast_episodes.episode_title\",\"NativeReferenceName\":\"episode_title\"},{\"Aggregation\":{\"Expression\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"spotify_streams\"}},\"Function\":0},\"Name\":\"Sum(fct_podcast_episode_performances_daily.spotify_streams)\",\"NativeReferenceName\":\"Summe von spotify_streams\"},{\"Aggregation\":{\"Expression\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"spotify_starts\"}},\"Function\":0},\"Name\":\"Sum(fct_podcast_episode_performances_daily.spotify_starts)\",\"NativeReferenceName\":\"Summe von spotify_starts\"},{\"Aggregation\":{\"Expression\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"spotify_listeners_all_time_delta\"}},\"Function\":0},\"Name\":\"Sum(fct_podcast_episode_performances_daily.spotify_listeners_all_time_delta)\",\"NativeReferenceName\":\"Summe von spotify_listeners_all_time_delta\"},{\"Aggregation\":{\"Expression\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"spotify_listeners_day\"}},\"Function\":1},\"Name\":\"Sum(fct_podcast_episode_performances_daily.spotify_listeners_day)\",\"NativeReferenceName\":\"Durchschnitt von spotify_listeners_day\"},{\"Aggregation\":{\"Expression\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"f\"}},\"Property\":\"akamai_ondemand\"}},\"Function\":0},\"Name\":\"Sum(fct_podcast_episode_performances_daily.akamai_ondemand)\",\"NativeReferenceName\":\"Summe von akamai_ondemand\"}]},\"drillFilterOtherVisuals\":true}}",
+          "filters": "[]",
+          "height": 1132.81,
+          "width": 1242.44,
+          "x": 1213.20,
+          "y": 0.00,
+          "z": 1.00
+        },
+        {
+          "config": "{\"name\":\"b28a70f71a4e456c5616\",\"layouts\":[{\"id\":0,\"position\":{\"x\":39.73018549747049,\"y\":0,\"z\":0,\"width\":1131.2647554806072,\"height\":1133.3558178752107}}],\"singleVisual\":{\"visualType\":\"tableEx\",\"projections\":{\"Values\":[{\"queryRef\":\"dim_podcasts.podcast_name\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"d\",\"Entity\":\"dim_podcasts\",\"Type\":0}],\"Select\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"podcast_name\"},\"Name\":\"dim_podcasts.podcast_name\",\"NativeReferenceName\":\"podcast_name\"}],\"OrderBy\":[{\"Direction\":1,\"Expression\":{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"podcast_name\"}}}]},\"autoSelectVisualType\":true,\"drillFilterOtherVisuals\":true}}",
+          "filters": "[]",
+          "height": 1133.36,
+          "width": 1131.26,
+          "x": 39.73,
+          "y": 0.00,
+          "z": 0.00
+        }
+      ],
       "width": 2480.00
     },
     {
