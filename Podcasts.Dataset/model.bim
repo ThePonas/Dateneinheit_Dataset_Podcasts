@@ -4,7 +4,7 @@
     "annotations": [
       {
         "name": "PBI_QueryOrder",
-        "value": "[\"dim_dates\",\"dim_clocks\",\"Tabellenliste\",\"DBT_Dev_Env\",\"Import Table\",\"mart_Connect\"]"
+        "value": "[\"dim_dates_fct\",\"dim_clocks\",\"Tabellenliste\",\"DBT_Dev_Env\",\"Import Table\",\"mart_Connect\",\"dim_dates_publish\",\"fct_podcast_spotify_ard_performances_hourly\",\"fct_podcast_episode_performances_daily\",\"dim_podcast_episodes\",\"dim_podcasts\",\"dim_podcast_categories\",\"fct_podcast_spotify_ard_performances_daily\"]"
       },
       {
         "name": "__PBI_TimeIntelligenceEnabled",
@@ -56,7 +56,7 @@
           "Wenn auf dem eigenen environment gearbeitet werden soll füge das eigene präfix hinzufügen.",
           "Tabellen sollten bei der ansteuerung der BigQuery Tabellen diesen Parameter mit einbeziehen. dh. in der angabe des shemas z.B: \"dbt_prod_marts\"  sollte der string zwischen den ersten beiden \"_\" durch den Parameter ersetzt werden. (ersetzen von \"prod\" durch \" \" & DBT_Dev_Env & \" \"  )"
         ],
-        "expression": "\"test\" meta [IsParameterQuery=true, List={\"prod\", \"test\", \"jmayer\", \"nwen\"}, DefaultValue=..., Type=\"Any\", IsParameterQueryRequired=true]",
+        "expression": "\"jmayer\" meta [IsParameterQuery=true, List={\"prod\", \"test\", \"jmayer\", \"nwen\"}, DefaultValue=..., Type=\"Any\", IsParameterQueryRequired=true]",
         "kind": "m",
         "lineageTag": "57265960-4f14-4c0c-a8b0-99df0a3f0045",
         "queryGroup": "Import Table function"
@@ -134,10 +134,83 @@
         "folder": "Import Table function"
       }
     ],
+    "relationships": [
+      {
+        "name": "ef65b8d8-da4a-4978-9ff9-cf4430f1fd32",
+        "fromColumn": "date",
+        "fromTable": "fct_podcast_episode_performances_daily",
+        "toColumn": "date",
+        "toTable": "dim_dates_fct"
+      },
+      {
+        "name": "d72922ef-d7d5-4ccc-ae30-9cc34a027c8e",
+        "fromColumn": "podcast_id",
+        "fromTable": "fct_podcast_episode_performances_daily",
+        "toColumn": "podcast_id",
+        "toTable": "dim_podcasts"
+      },
+      {
+        "name": "597717bc-a990-4778-a6ae-202b43d6abb9",
+        "fromColumn": "date",
+        "fromTable": "fct_podcast_episode_performances_daily",
+        "toColumn": "date",
+        "toTable": "dim_dates_publish"
+      },
+      {
+        "name": "ccfdb3cd-ba23-43f6-aee5-3fd84665f616",
+        "crossFilteringBehavior": "bothDirections",
+        "fromColumn": "episode_id",
+        "fromTable": "fct_podcast_episode_performances_daily",
+        "toColumn": "episode_id",
+        "toTable": "dim_podcast_episodes"
+      },
+      {
+        "name": "e4184cab-e4b1-449e-856b-c01b778bc1dd",
+        "fromColumn": "hour_local",
+        "fromTable": "fct_podcast_spotify_ard_performances_hourly",
+        "toColumn": "Hour",
+        "toTable": "dim_clocks"
+      },
+      {
+        "name": "9b15c1e2-cc77-4f74-88c3-9bf42441a0f2",
+        "fromColumn": "podcast_id",
+        "fromTable": "fct_podcast_spotify_ard_performances_daily",
+        "toColumn": "podcast_id",
+        "toTable": "dim_podcasts"
+      },
+      {
+        "name": "2a4ec4a2-dc71-4486-94f8-fee84359a2ee",
+        "fromColumn": "date",
+        "fromTable": "fct_podcast_spotify_ard_performances_daily",
+        "toColumn": "date",
+        "toTable": "dim_dates_fct"
+      },
+      {
+        "name": "a2ebe753-e9ed-40cd-b906-c924b1561f43",
+        "fromColumn": "podcast_id",
+        "fromTable": "fct_podcast_spotify_ard_performances_hourly",
+        "toColumn": "podcast_id",
+        "toTable": "dim_podcasts"
+      },
+      {
+        "name": "0e681d5b-b132-4a15-8c0f-301cc070fa35",
+        "fromColumn": "date",
+        "fromTable": "fct_podcast_spotify_ard_performances_hourly",
+        "toColumn": "date",
+        "toTable": "dim_dates_fct"
+      },
+      {
+        "name": "27f62d9d-ed5b-4a7b-84cb-2fb2c1a11e4c",
+        "fromColumn": "main_category_id",
+        "fromTable": "dim_podcasts",
+        "toColumn": "podcast_category_id",
+        "toTable": "dim_podcast_categories"
+      }
+    ],
     "sourceQueryCulture": "de-DE",
     "tables": [
       {
-        "name": "dim_dates",
+        "name": "dim_dates_fct",
         "annotations": [
           {
             "name": "PBI_ResultType",
@@ -375,11 +448,6 @@
                 "value": "Date"
               }
             ],
-            "changedProperties": [
-              {
-                "property": "DataType"
-              }
-            ],
             "dataType": "dateTime",
             "displayFolder": "Kombinierte",
             "formatString": "Short Date",
@@ -398,11 +466,6 @@
               {
                 "name": "UnderlyingDateTimeDataType",
                 "value": "Date"
-              }
-            ],
-            "changedProperties": [
-              {
-                "property": "DataType"
               }
             ],
             "dataType": "dateTime",
@@ -425,11 +488,6 @@
                 "value": "Date"
               }
             ],
-            "changedProperties": [
-              {
-                "property": "DataType"
-              }
-            ],
             "dataType": "dateTime",
             "displayFolder": "Kombinierte",
             "formatString": "Short Date",
@@ -448,11 +506,6 @@
               {
                 "name": "UnderlyingDateTimeDataType",
                 "value": "Date"
-              }
-            ],
-            "changedProperties": [
-              {
-                "property": "DataType"
               }
             ],
             "dataType": "dateTime",
@@ -1175,7 +1228,7 @@
         "lineageTag": "137cfcc6-8e74-427f-94be-1bfb7a907786",
         "partitions": [
           {
-            "name": "dim_dates-2d5bc5d7-74b8-459e-a01d-ad3fa500d453",
+            "name": "dim_dates_fct-2d5bc5d7-74b8-459e-a01d-ad3fa500d453",
             "mode": "directQuery",
             "source": {
               "expression": [
@@ -1198,10 +1251,6 @@
           {
             "name": "PBI_ResultType",
             "value": "Table"
-          },
-          {
-            "name": "PBI_NavigationStepName",
-            "value": "Navigation"
           }
         ],
         "columns": [
@@ -1218,7 +1267,7 @@
             "lineageTag": "1d05180f-e349-4750-99e6-184fb7013a66",
             "sourceColumn": "Hour",
             "sourceProviderType": "bigint",
-            "summarizeBy": "sum"
+            "summarizeBy": "none"
           },
           {
             "name": "last_updated",
@@ -1515,6 +1564,2261 @@
             "source": {
               "expression": "Calendar(Date(2015,1,1), Date(2015,1,1))",
               "type": "calculated"
+            }
+          }
+        ]
+      },
+      {
+        "name": "dim_dates_publish",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "dataType": "dateTime",
+            "displayFolder": "_Kalendar",
+            "formatString": "Long Date",
+            "lineageTag": "8a8db215-55fa-4224-94ac-8420cae44463",
+            "sourceColumn": "date",
+            "sourceProviderType": "date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "jahr",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "_Kalendar",
+            "formatString": "0",
+            "lineageTag": "6a588924-2eb9-4003-b0b3-152e62dd9f80",
+            "sourceColumn": "jahr",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "monat",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "_Kalendar",
+            "formatString": "0",
+            "lineageTag": "942f37d5-cc02-4b87-964e-62149099cdd4",
+            "sourceColumn": "monat",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "monatsname",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "displayFolder": "_Kalendar",
+            "lineageTag": "2994a3ae-5a73-45c3-bcb2-46157779ee07",
+            "sourceColumn": "monatsname",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "tag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "_Kalendar",
+            "formatString": "0",
+            "lineageTag": "d913ac06-ac00-4ed9-b383-90f04967c006",
+            "sourceColumn": "tag",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "wochentag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "displayFolder": "_Kalendar",
+            "lineageTag": "a600c3b4-210d-4aa0-9f4c-1d27b376a7ba",
+            "sourceColumn": "wochentag",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "wochentagsname",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "displayFolder": "_Kalendar",
+            "lineageTag": "4aafdfed-943d-4a66-9b18-3fcc968544f8",
+            "sourceColumn": "wochentagsname",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "quartal",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "displayFolder": "_Kalendar",
+            "lineageTag": "90358d92-73a1-4447-8bd3-1c668a04cb1f",
+            "sourceColumn": "quartal",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "kalenderwoche",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "displayFolder": "_Kalendar",
+            "lineageTag": "1ddddbf4-73d7-4787-a8eb-3259d49455c2",
+            "sourceColumn": "kalenderwoche",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "month_year",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "displayFolder": "_Kalendar",
+            "lineageTag": "4a99768e-88fd-40ea-ac4b-553c942a446d",
+            "sourceColumn": "month_year",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "quarter_year",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "displayFolder": "_Kalendar",
+            "lineageTag": "b8d61d80-a45f-4b42-ad40-61af8dbb408a",
+            "sourceColumn": "quarter_year",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_future",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "833aa771-3206-433f-ac1b-27e5e08ed15e",
+            "sourceColumn": "is_future",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "week_date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "dataType": "dateTime",
+            "displayFolder": "_Kalendar",
+            "formatString": "Long Date",
+            "lineageTag": "79e3f0ba-6599-4fe6-8203-0736a0b2b725",
+            "sourceColumn": "week_date",
+            "sourceProviderType": "date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "month_date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "dataType": "dateTime",
+            "displayFolder": "_Kalendar",
+            "formatString": "Long Date",
+            "lineageTag": "6acc24b7-22fd-4aee-bf07-3d551871c469",
+            "sourceColumn": "month_date",
+            "sourceProviderType": "date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "quarter_date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "dataType": "dateTime",
+            "displayFolder": "_Kalendar",
+            "formatString": "Long Date",
+            "lineageTag": "4e8bfc44-a655-46d7-b929-99822053f5a7",
+            "sourceColumn": "quarter_date",
+            "sourceProviderType": "date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "year_date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "dataType": "dateTime",
+            "displayFolder": "_Kalendar",
+            "formatString": "Long Date",
+            "lineageTag": "6b3ea74b-32bf-485e-8893-f26392b18fea",
+            "sourceColumn": "year_date",
+            "sourceProviderType": "date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_7_days_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "vorherige",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "c854560e-792b-493f-95c7-5e59c9c5eceb",
+            "sourceColumn": "last_7_days_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_7_days_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "vorherige",
+            "formatString": "0",
+            "lineageTag": "eb4b50fb-25d0-47d0-b5bd-a66aaf1c145b",
+            "sourceColumn": "last_7_days_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_7_days_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Vergleich",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "5c3c4b9e-0028-474b-b1fc-1f7c4adf0ea9",
+            "sourceColumn": "comp_2_last_7_days_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_7_days_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Vergleich",
+            "formatString": "0",
+            "lineageTag": "a82c52e6-7ce8-4148-8805-accaef57962a",
+            "sourceColumn": "comp_2_last_7_days_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "this_week_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Aktuell",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "b4d281e6-4231-4efc-bffd-8ef963ea1390",
+            "sourceColumn": "this_week_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "this_week_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Aktuell",
+            "formatString": "0",
+            "lineageTag": "e7d0dc03-df95-463c-a671-ee6ffddeb926",
+            "sourceColumn": "this_week_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_this_week_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Vergleich",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "f3f0d17f-21ec-4c0e-a966-da7dc1e2c8f9",
+            "sourceColumn": "comp_2_this_week_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_this_week_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Vergleich",
+            "formatString": "0",
+            "lineageTag": "266ae0da-0531-4b8a-a6c9-336373edf91c",
+            "sourceColumn": "comp_2_this_week_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_week_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "vorherige",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "12dddb69-b2e2-4c78-a8dd-d4aa54bbba7c",
+            "sourceColumn": "last_week_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_week_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "vorherige",
+            "formatString": "0",
+            "lineageTag": "f3995a39-ab2f-4820-ad05-f709157ad9a4",
+            "sourceColumn": "last_week_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_week_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Vergleich",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "3c299a47-c267-4dcf-8e3b-9058ab19301d",
+            "sourceColumn": "comp_2_last_week_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_week_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Vergleich",
+            "formatString": "0",
+            "lineageTag": "abf887ed-26d2-4301-8f59-7f2309d88125",
+            "sourceColumn": "comp_2_last_week_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_2_weeks_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "vorherige",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "14993c05-a746-4c99-9cb9-bb1095efe3b9",
+            "sourceColumn": "last_2_weeks_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_2_weeks_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "vorherige",
+            "formatString": "0",
+            "lineageTag": "79a80f0f-ce74-4f2b-b0bf-eedd057aa1fd",
+            "sourceColumn": "last_2_weeks_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_2_weeks_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Vergleich",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "b3204625-193a-4dbf-a78a-62ca4ff9c5fe",
+            "sourceColumn": "comp_2_last_2_weeks_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_2_weeks_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Vergleich",
+            "formatString": "0",
+            "lineageTag": "6fc65003-e6ca-422a-b84e-b88d1aa63138",
+            "sourceColumn": "comp_2_last_2_weeks_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_4_weeks_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "vorherige",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "91c1d2bb-da9b-44a5-b091-0733fd3b1686",
+            "sourceColumn": "last_4_weeks_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_4_weeks_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "vorherige",
+            "formatString": "0",
+            "lineageTag": "392bde4f-4ae5-43fe-b951-750092fdba13",
+            "sourceColumn": "last_4_weeks_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_4_weeks_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Vergleich",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "e062e22d-9fb6-47ae-b35e-fe957ac3fcbe",
+            "sourceColumn": "comp_2_last_4_weeks_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_4_weeks_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Vergleich",
+            "formatString": "0",
+            "lineageTag": "a12357c1-d1f3-4265-9ad1-6205f4b73305",
+            "sourceColumn": "comp_2_last_4_weeks_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "this_month_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Aktuell",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "29aee679-0d3c-4a25-be36-187bf386eb92",
+            "sourceColumn": "this_month_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "this_month_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Aktuell",
+            "formatString": "0",
+            "lineageTag": "aca88125-e75a-4f11-b2c4-38ac45681f58",
+            "sourceColumn": "this_month_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_this_month_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Vergleich",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "ca7531bb-b484-4ef8-8ef0-232b1ba4df88",
+            "sourceColumn": "comp_2_this_month_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_this_month_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Vergleich",
+            "formatString": "0",
+            "lineageTag": "24b1bc77-9dab-46ed-b867-a5ced6e38af7",
+            "sourceColumn": "comp_2_this_month_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_month_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "vorherige",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "58f091f1-d5a9-43b8-8b9e-256fd7b95a36",
+            "sourceColumn": "last_month_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_month_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "vorherige",
+            "formatString": "0",
+            "lineageTag": "6f6d3455-f62f-499a-9b27-5743738ffb81",
+            "sourceColumn": "last_month_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_month_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Vergleich",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "4b50bf43-1438-4b79-8551-599539ae07c3",
+            "sourceColumn": "comp_2_last_month_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_month_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Vergleich",
+            "formatString": "0",
+            "lineageTag": "0ed5e120-02b2-49ac-bd5d-b389de46b8a0",
+            "sourceColumn": "comp_2_last_month_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_3_months_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "vorherige",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "5fcfc372-9858-4478-adc6-55077f18d34f",
+            "sourceColumn": "last_3_months_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_3_months_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "vorherige",
+            "formatString": "0",
+            "lineageTag": "5971aa7d-e431-4234-9ce8-a03a77acf6bc",
+            "sourceColumn": "last_3_months_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_3_months_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Vergleich",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "e7553501-549a-4fb5-ac3a-cdcc12afcf31",
+            "sourceColumn": "comp_2_last_3_months_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_3_months_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Vergleich",
+            "formatString": "0",
+            "lineageTag": "a36c81c5-b851-4768-837c-a68546ff21fe",
+            "sourceColumn": "comp_2_last_3_months_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "this_year_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Aktuell",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "5e024a0a-6a4c-43c6-b419-7500bab0c68c",
+            "sourceColumn": "this_year_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "this_year_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Aktuell",
+            "formatString": "0",
+            "lineageTag": "a1d85519-a381-42b7-a101-9499137a8fdd",
+            "sourceColumn": "this_year_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_this_year_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Vergleich",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "486b0c02-b609-4353-a136-a70d37f95639",
+            "sourceColumn": "comp_2_this_year_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_this_year_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Vergleich",
+            "formatString": "0",
+            "lineageTag": "a478281d-203b-4bad-875a-c20aca10dadd",
+            "sourceColumn": "comp_2_this_year_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_year_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "vorherige",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "d32ed6c7-8f16-43f4-974b-c52576b1c1ad",
+            "sourceColumn": "last_year_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_year_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "vorherige",
+            "formatString": "0",
+            "lineageTag": "c7c74108-9cf9-4ba3-b261-4d1e5cbdae4e",
+            "sourceColumn": "last_year_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_year_flag",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "displayFolder": "Vergleich",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "2d0dc94b-980d-4c13-a69f-76c561d2a2de",
+            "sourceColumn": "comp_2_last_year_flag",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "comp_2_last_year_datediff",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "displayFolder": "Vergleich",
+            "formatString": "0",
+            "lineageTag": "89059f1f-c117-4032-ac06-fda4a774851d",
+            "sourceColumn": "comp_2_last_year_datediff",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_updated",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "dateTime",
+            "displayFolder": "vorherige",
+            "formatString": "General Date",
+            "lineageTag": "80cbb909-65fb-4eae-b170-19681d3d2f17",
+            "sourceColumn": "last_updated",
+            "sourceProviderType": "datetime2",
+            "summarizeBy": "none"
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "YYYY-MM-DD",
+            "displayFolder": "_Kalendar\\_Hierachien",
+            "levels": [
+              {
+                "name": "jahr",
+                "column": "jahr",
+                "lineageTag": "99f5ae50-b71f-40f2-9907-06ebe601e0c6",
+                "ordinal": 0
+              },
+              {
+                "name": "kalenderwoche",
+                "column": "kalenderwoche",
+                "lineageTag": "b574db7e-bafb-4e92-96e8-c6af3235c13f",
+                "ordinal": 1
+              },
+              {
+                "name": "monat",
+                "column": "monat",
+                "lineageTag": "f98777ad-ee59-4624-b4de-e755680b8f59",
+                "ordinal": 2
+              },
+              {
+                "name": "tag",
+                "column": "tag",
+                "lineageTag": "3dfbecec-c823-4455-b701-e86199cd38e6",
+                "ordinal": 3
+              }
+            ],
+            "lineageTag": "ea692ce9-826c-4604-bb03-1c522610898c"
+          },
+          {
+            "name": "YYYY-KW",
+            "displayFolder": "_Kalendar\\_Hierachien",
+            "levels": [
+              {
+                "name": "jahr",
+                "column": "jahr",
+                "lineageTag": "bf019d99-3d4d-4752-afdc-450e7ee0383e",
+                "ordinal": 0
+              },
+              {
+                "name": "kalenderwoche",
+                "column": "kalenderwoche",
+                "lineageTag": "2feb5ca9-26ae-4a88-8b4e-d07a432feaab",
+                "ordinal": 1
+              }
+            ],
+            "lineageTag": "043870d2-2b9e-4f07-9000-428f462a7f4b"
+          }
+        ],
+        "lineageTag": "5479319b-8923-4779-9d38-82c89876bf02",
+        "partitions": [
+          {
+            "name": "dim_dates_publish",
+            "mode": "directQuery",
+            "source": {
+              "expression": [
+                "let",
+                "    Quelle = GoogleBigQuery.Database(),",
+                "    #\"reach-it-342812\" = Quelle{[Name=\"reach-it-342812\"]}[Data],",
+                "    dbt_prod_marts_Schema = #\"reach-it-342812\"{[Name=\"dbt_\" & DBT_Dev_Env & \"_marts\",Kind=\"Schema\"]}[Data],",
+                "    dim_dates_Table = dbt_prod_marts_Schema{[Name=\"dim_dates\",Kind=\"Table\"]}[Data]",
+                "in",
+                "    dim_dates_Table"
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "fct_podcast_spotify_ard_performances_hourly",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "podcast_id",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "b54f5ebf-5f89-4bb1-8e7c-3fec484c3356",
+            "sourceColumn": "podcast_id",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "Long Date",
+            "lineageTag": "b6e092e0-cfc1-461d-a993-47b865544515",
+            "sourceColumn": "date",
+            "sourceProviderType": "date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "hour_utc",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "22a705d0-fc3d-4c6b-8237-98edb6bab4bf",
+            "sourceColumn": "hour_utc",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "last_updated",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "General Date",
+            "lineageTag": "96f0dc51-c357-4029-8b44-6511982c7cd8",
+            "sourceColumn": "last_updated",
+            "sourceProviderType": "datetime2",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "starts",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "e85dface-f416-4e67-a75d-c5b03988dcf8",
+            "sourceColumn": "starts",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "streams",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "fcbed3c5-ed62-4762-bafc-5d9cc4ea5601",
+            "sourceColumn": "streams",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "hour_local",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "f78b2373-f41f-41d0-846f-44d5983a5d08",
+            "sourceColumn": "hour_local",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "de8cf593-5c17-4743-99ee-0a1eb17fc641",
+        "partitions": [
+          {
+            "name": "fct_podcast_spotify_ard_performances_hourly",
+            "mode": "directQuery",
+            "source": {
+              "expression": [
+                "let",
+                "    Quelle = GoogleBigQuery.Database(),",
+                "    #\"reach-it-342812\" = Quelle{[Name=\"reach-it-342812\"]}[Data],",
+                "    dbt_jmayer_marts_Schema = #\"reach-it-342812\"{[Name=\"dbt_\"& DBT_Dev_Env&\"_marts\",Kind=\"Schema\"]}[Data],",
+                "    fct_podcast_spotify_ard_performances_hourly_Table = dbt_jmayer_marts_Schema{[Name=\"fct_podcast_spotify_ard_performances_hourly\",Kind=\"Table\"]}[Data]",
+                "in",
+                "    fct_podcast_spotify_ard_performances_hourly_Table"
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "fct_podcast_episode_performances_daily",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "episode_id",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "550f6d08-52c8-447f-b056-ad2b641bf825",
+            "sourceColumn": "episode_id",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "podcast_id",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "53d7a435-7db1-4173-b8bc-65de183d6492",
+            "sourceColumn": "podcast_id",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "spotify_episode_id",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "ba1e265f-8683-47f3-885f-8a90812233e5",
+            "sourceColumn": "spotify_episode_id",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "spotify_podcast_id",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "2b7a5ac9-9621-4c64-acf5-69ac4c445ad8",
+            "sourceColumn": "spotify_podcast_id",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "Long Date",
+            "lineageTag": "3587c8a6-2ff4-4828-a4f5-86db8460f266",
+            "sourceColumn": "date",
+            "sourceProviderType": "date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "publication_date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "Long Date",
+            "lineageTag": "5ffeda52-a31e-4b83-8ca7-d013236b3a48",
+            "sourceColumn": "publication_date",
+            "sourceProviderType": "date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "days_diff_to_publication",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "75d138c5-3eb0-431f-b2af-c7f00d179e7a",
+            "sourceColumn": "days_diff_to_publication",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "spotify_streams",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "262ff967-1be9-4fd2-9da6-a19d5e182274",
+            "sourceColumn": "spotify_streams",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "spotify_starts",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "c175fd6d-2aaf-4c14-a6ff-b31544c23352",
+            "sourceColumn": "spotify_starts",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "spotify_listeners_day",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "875a69a9-392f-4050-bcca-bfc07a69060e",
+            "sourceColumn": "spotify_listeners_day",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "spotify_listeners_7_days",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "182deeae-517b-4726-b4fa-677934055a27",
+            "sourceColumn": "spotify_listeners_7_days",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "spotify_listeners_all_time",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "c13e53ea-b435-4125-bbc8-b0e69a55a1e0",
+            "sourceColumn": "spotify_listeners_all_time",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "spotify_listeners_28_days",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "4d60c0e0-0e2a-488a-901f-05d1f843ccef",
+            "sourceColumn": "spotify_listeners_28_days",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "spotify_listeners_all_time_delta",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "44f0ffb0-52e2-4660-bdd7-6982055e56b1",
+            "sourceColumn": "spotify_listeners_all_time_delta",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "akamai_ondemand",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "789d1095-5e0b-43f5-a0e9-d79518078e38",
+            "sourceColumn": "akamai_ondemand",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          }
+        ],
+        "lineageTag": "77ab75c1-c138-4d53-ab4e-321a86725c24",
+        "partitions": [
+          {
+            "name": "fct_podcast_episode_performances_daily",
+            "mode": "directQuery",
+            "source": {
+              "expression": [
+                "let",
+                "    Quelle = GoogleBigQuery.Database(),",
+                "    #\"reach-it-342812\" = Quelle{[Name=\"reach-it-342812\"]}[Data],",
+                "    dbt_jmayer_marts_Schema = #\"reach-it-342812\"{[Name=\"dbt_\"& DBT_Dev_Env&\"_marts\",Kind=\"Schema\"]}[Data],",
+                "    fct_podcast_episode_performances_daily_Table = dbt_jmayer_marts_Schema{[Name=\"fct_podcast_episode_performances_daily\",Kind=\"Table\"]}[Data]",
+                "in",
+                "    fct_podcast_episode_performances_daily_Table"
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "dim_podcast_episodes",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "episode_id",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "68b5c375-7db5-42b7-aeef-2457463b949c",
+            "sourceColumn": "episode_id",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "podcast_id",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "1c70004c-1619-40da-97cf-415a3f219767",
+            "sourceColumn": "podcast_id",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "spotify_id",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "c1b72ff7-0fcc-4044-bbe8-a90910061c78",
+            "sourceColumn": "spotify_id",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ard_audiothek_id",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "9f69d5a9-4da4-4919-a777-7be970d7d652",
+            "sourceColumn": "ard_audiothek_id",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "zmdb_id",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "3ac4ac5e-f632-4181-b7d9-4160e6db2fe8",
+            "sourceColumn": "zmdb_id",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "available",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "040d3dc4-b2a2-4aaf-9b52-b95b196a3fc1",
+            "sourceColumn": "available",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "duration_string",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "5c38daf5-2af1-44d4-921d-f2c69329da61",
+            "sourceColumn": "duration_string",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "duration",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "67e1b934-8d22-413c-970d-8d3350aecfb6",
+            "sourceColumn": "duration",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "episode_title",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "191cd145-9168-4a98-8f0f-46eb9e8cb15e",
+            "sourceColumn": "episode_title",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "episode_description",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "bf39bb66-6907-40c6-a4d7-75ce29e4839b",
+            "sourceColumn": "episode_description",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "publication_date_time",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "General Date",
+            "lineageTag": "18332aae-9851-4a89-9539-1d9a1cc5e7b9",
+            "sourceColumn": "publication_date_time",
+            "sourceProviderType": "datetime2",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "publication_date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "Long Date",
+            "lineageTag": "bec02728-24af-4208-b3ea-7ae957576681",
+            "sourceColumn": "publication_date",
+            "sourceProviderType": "date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "days_since_publication",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "4397f1c4-6d4f-492b-a401-fb04c8d6152f",
+            "sourceColumn": "days_since_publication",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "publication_hour_local",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "5d09aec0-2923-4b55-bc08-0b7378b36aa4",
+            "sourceColumn": "publication_hour_local",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_available_date_time",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "General Date",
+            "lineageTag": "83f4ce83-59dd-46f5-9736-7d2c8ae2b90e",
+            "sourceColumn": "last_available_date_time",
+            "sourceProviderType": "datetime2",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "media",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "98653369-d533-43bb-aec8-55e15dcef659",
+            "sourceColumn": "media",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_updated",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "0be15da6-8fd5-416b-ba10-cae2f12c5fd1",
+            "sourceColumn": "last_updated",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "duration_hour_exact",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "2dd60f0e-39bf-44f0-9478-9e46d19ccc67",
+            "sourceColumn": "duration_hour_exact",
+            "sourceProviderType": "double",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "duration_minute_exact",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "e332869e-3e85-4131-b72c-9a8ad82e4da9",
+            "sourceColumn": "duration_minute_exact",
+            "sourceProviderType": "double",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "duration_second_exact",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "5109e2f9-346b-48d5-b9b5-6bf45a6a104f",
+            "sourceColumn": "duration_second_exact",
+            "sourceProviderType": "double",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "45957da6-9d9c-44ef-8ec5-85db1cf64ef8",
+        "partitions": [
+          {
+            "name": "dim_podcast_episodes",
+            "mode": "directQuery",
+            "source": {
+              "expression": [
+                "let",
+                "    Quelle = GoogleBigQuery.Database(),",
+                "    #\"reach-it-342812\" = Quelle{[Name=\"reach-it-342812\"]}[Data],",
+                "    dbt_jmayer_marts_Schema = #\"reach-it-342812\"{[Name=\"dbt_\"& DBT_Dev_Env&\"_marts\",Kind=\"Schema\"]}[Data],",
+                "    dim_podcast_episodes_Table = dbt_jmayer_marts_Schema{[Name=\"dim_podcast_episodes\",Kind=\"Table\"]}[Data]",
+                "in",
+                "    dim_podcast_episodes_Table"
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "dim_podcasts",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "podcast_id",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "58cac76f-3f8e-41b5-9f9b-82e2b2debb08",
+            "sourceColumn": "podcast_id",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "main_category_id",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "257f8cb4-c282-4a90-b929-d30c3ecdf04a",
+            "sourceColumn": "main_category_id",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "spotify_id",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "9790997d-e19c-4b2c-8f32-5e6e02f6fe0f",
+            "sourceColumn": "spotify_id",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ard_audiothek_id",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "b8094092-fad5-4646-84a1-6b3123df1bbe",
+            "sourceColumn": "ard_audiothek_id",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "author",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "0319c8ab-3b55-4725-9958-a8b835c317b2",
+            "sourceColumn": "author",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "podcast_name",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "3464e447-d4b9-49be-9aa7-4e2d601a00df",
+            "sourceColumn": "podcast_name",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "podcast_description",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "d2fad254-9151-4b8b-80c3-7da4fb04d8ce",
+            "sourceColumn": "podcast_description",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "feed_url",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "93579cac-c3c3-4282-8b79-843a93e6c906",
+            "sourceColumn": "feed_url",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "itunes_category",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "86303119-d057-4598-b051-d03471456650",
+            "sourceColumn": "itunes_category",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "image",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "4ebbf60a-e4a0-4988-bd8b-e0257b837682",
+            "sourceColumn": "image",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_active",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "boolean",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "e127831a-0518-40ab-8aed-9c839ea1ee31",
+            "sourceColumn": "is_active",
+            "sourceProviderType": "bit",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "itunes_subcategory",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "93db61ee-9937-4ce1-a8db-1fbb0879518e",
+            "sourceColumn": "itunes_subcategory",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "itunes_url",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "dabccee9-9484-4c1f-a0a1-08d78d9b2db6",
+            "sourceColumn": "itunes_url",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_updated",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "General Date",
+            "lineageTag": "e3957e37-8d1d-47dc-855b-3094724bce22",
+            "sourceColumn": "last_updated",
+            "sourceProviderType": "datetime2",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "ab8ce269-6c7d-4295-9efd-709f7a73d2e2",
+        "partitions": [
+          {
+            "name": "dim_podcasts",
+            "mode": "directQuery",
+            "source": {
+              "expression": [
+                "let",
+                "    Quelle = GoogleBigQuery.Database(),",
+                "    #\"reach-it-342812\" = Quelle{[Name=\"reach-it-342812\"]}[Data],",
+                "    dbt_jmayer_marts_Schema = #\"reach-it-342812\"{[Name=\"dbt_\"& DBT_Dev_Env&\"_marts\",Kind=\"Schema\"]}[Data],",
+                "    dim_podcasts_Table = dbt_jmayer_marts_Schema{[Name=\"dim_podcasts\",Kind=\"Table\"]}[Data]",
+                "in",
+                "    dim_podcasts_Table"
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "dim_podcast_categories",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "podcast_category_id",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "631e9e09-73ce-41a4-90b7-c3b255332222",
+            "sourceColumn": "podcast_category_id",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "podcast_category_name",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "61435ffa-1d6c-449b-8e6d-0edced3b3837",
+            "sourceColumn": "podcast_category_name",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_updated",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "General Date",
+            "lineageTag": "1f3a04ad-a17e-403b-83d1-e6cb818ede80",
+            "sourceColumn": "last_updated",
+            "sourceProviderType": "datetime2",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "c47a2936-fe8d-4e3c-9756-7710ca1c5881",
+        "partitions": [
+          {
+            "name": "dim_podcast_categories",
+            "mode": "directQuery",
+            "source": {
+              "expression": [
+                "let",
+                "    Quelle = GoogleBigQuery.Database(),",
+                "    #\"reach-it-342812\" = Quelle{[Name=\"reach-it-342812\"]}[Data],",
+                "    dbt_jmayer_marts_Schema = #\"reach-it-342812\"{[Name=\"dbt_\"& DBT_Dev_Env&\"_marts\",Kind=\"Schema\"]}[Data],",
+                "    dim_podcast_categories_Table = dbt_jmayer_marts_Schema{[Name=\"dim_podcast_categories\",Kind=\"Table\"]}[Data]",
+                "in",
+                "    dim_podcast_categories_Table"
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "fct_podcast_spotify_ard_performances_daily",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "podcast_id",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "7d9a2056-3631-4bd0-8a73-52d13730d676",
+            "sourceColumn": "podcast_id",
+            "sourceProviderType": "nvarchar(16384)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "Long Date",
+            "lineageTag": "9f0ecc43-9a68-49d5-8b4e-7d3179821251",
+            "sourceColumn": "date",
+            "sourceProviderType": "date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "last_updated",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "General Date",
+            "lineageTag": "a012cb8c-91d0-4a4d-aa6c-86c587b7a4ef",
+            "sourceColumn": "last_updated",
+            "sourceProviderType": "datetime2",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "followers",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "8c9e49f7-25fc-446f-a6df-2daff4f96781",
+            "sourceColumn": "followers",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "listeners_all_time",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "141e038a-ea7b-400f-8a68-74da105e5746",
+            "sourceColumn": "listeners_all_time",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "listeners_28_days",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "12a14284-b471-4dc2-97fe-f1c074dcbb44",
+            "sourceColumn": "listeners_28_days",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "listeners_7_days",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "189c2450-b575-4e6e-954e-cc03dd435212",
+            "sourceColumn": "listeners_7_days",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "listeners",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "5ef82263-8fb3-441f-8443-ced2893ce45f",
+            "sourceColumn": "listeners",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "listeners_all_time_delta",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "4fdd034a-b5bd-4629-af48-367a88e63d74",
+            "sourceColumn": "listeners_all_time_delta",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "followers_delta",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "1386f207-7f05-4854-b294-a12fe6ff4499",
+            "sourceColumn": "followers_delta",
+            "sourceProviderType": "bigint",
+            "summarizeBy": "sum"
+          }
+        ],
+        "lineageTag": "a4bbb214-1ae8-4281-a533-530701edc9cc",
+        "partitions": [
+          {
+            "name": "fct_podcast_spotify_ard_performances_daily",
+            "mode": "directQuery",
+            "source": {
+              "expression": [
+                "let",
+                "    Quelle = GoogleBigQuery.Database(),",
+                "    #\"reach-it-342812\" = Quelle{[Name=\"reach-it-342812\"]}[Data],",
+                "    dbt_jmayer_marts_Schema = #\"reach-it-342812\"{[Name=\"dbt_\"& DBT_Dev_Env&\"_marts\",Kind=\"Schema\"]}[Data],",
+                "    fct_podcast_spotify_ard_performances_daily_Table = dbt_jmayer_marts_Schema{[Name=\"fct_podcast_spotify_ard_performances_daily\",Kind=\"Table\"]}[Data]",
+                "in",
+                "    fct_podcast_spotify_ard_performances_daily_Table"
+              ],
+              "type": "m"
             }
           }
         ]
